@@ -41,7 +41,8 @@ async def update_product(db: Session, product_id: int, product: shemas.ProductCr
     db_product = db.query(models.Product).filter_by(id=product_id)
     db_product.update(product.dict(), synchronize_session='fetch')
     db.commit()
-    db_product = db.query(models.Product).filter(models.Product.id == product_id).all()
+    db_product = db.query(models.Product).filter(models.Product.id == product_id,
+                                                 models.Product.time_deleted == None).all()
     return db_product
 
 
@@ -51,8 +52,8 @@ async def delete_product(db: Session, product_id: int) -> models.Product:
     db.commit()
 
 
-
 # Получение всех товаров по типу
 async def get_products_type(db: Session, type_id: int) -> models.Product:
-    result = db.query(models.Product).filter(models.Product.product_type_id == type_id, models.Product.time_deleted == None).all()
+    result = db.query(models.Product).filter(models.Product.product_type_id == type_id,
+                                             models.Product.time_deleted == None).all()
     return result

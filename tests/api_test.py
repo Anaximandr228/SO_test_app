@@ -91,7 +91,8 @@ def test_post_product(client, products_setup, db_session):
         "product_type_id": 1
     }
     response = client.post("/product", data=json.dumps(data))
-    saved_product = db_session.query(models.Product).filter(models.Product.id == response.json()['id'], models.Product.time_deleted == None).all()
+    saved_product = db_session.query(models.Product).filter(models.Product.id == response.json()['id'],
+                                                            models.Product.time_deleted == None).all()
     assert response.status_code == 200
     assert response.json()['name'] == 'Test'
     assert saved_product[0].name == 'Test'
@@ -103,7 +104,8 @@ def test_post_product_type(client, products_setup, db_session):
         "name": "test_type"
     }
     response = client.post("/type", data=json.dumps(data))
-    saved_product_type = db_session.query(models.ProductType).filter(models.ProductType.id == response.json()['id'], models.Product.time_deleted == None)
+    saved_product_type = db_session.query(models.ProductType).filter(models.ProductType.id == response.json()['id'],
+                                                                     models.Product.time_deleted == None)
     assert response.status_code == 200
     assert response.json()['name'] == 'test_type'
     assert saved_product_type[0].name == 'test_type'
@@ -116,10 +118,12 @@ def test_post_update_product(client, products_setup, db_session):
         "product_type_id": 1
     }
     response = client.post("/product/1", data=json.dumps(data))
-    saved_product = db_session.query(models.Product).filter(models.Product.id == response.json()[0]['product_type_id'], models.Product.time_deleted == None).all()
+    saved_product = db_session.query(models.Product).filter(models.Product.id == response.json()[0]['product_type_id'],
+                                                            models.Product.time_deleted == None).all()
     assert response.status_code == 200
     assert response.json()[0]['name'] == 'Test_Test'
     assert saved_product[0].name == 'Test_Test'
+
 
 def test_delete_product(client, products_setup, db_session):
     print('test_delete_product')

@@ -79,10 +79,11 @@ async def read_products_type(type_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="User not found")
     return db_products_type
 
+
 @app.delete("/product/{id}", status_code=204,
-         summary="Удаление продуктов по id",
-         description="При отправке запросе выводятся "
-                     "продукты по запрашиваемому типу")
+            summary="Удаление продуктов по id",
+            description="При отправке запросе выводятся "
+                        "продукты по запрашиваемому типу")
 async def remove_product(id: int, db: Session = Depends(get_db)):
     await crud.delete_product(db=db, product_id=id)
 
