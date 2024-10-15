@@ -34,7 +34,6 @@ class Product(ProductBase):
     id: int
     time_created: datetime
     time_updated: Optional[datetime]
-    time_deleted: Optional[datetime]
     name: str
     product_type_id: int
     type: ProductType
