@@ -47,7 +47,7 @@ async def update_product(db: Session, product_id: int, product: shemas.ProductCr
 
 
 async def delete_product(db: Session, product_id: int) -> models.Product:
-    db_product = db.query(models.Product).filter_by(id=product_id).all()
+    db_product = db.query(models.Product).filter(models.Product.id == product_id).all()
     db_product[0].time_deleted = datetime.datetime.utcnow()
     db.commit()
 
