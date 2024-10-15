@@ -71,7 +71,7 @@ def test_get_products(client, products_setup):
 
 
 def test_get_product_id(client, products_setup):
-    print('test_get_products_id')
+    print('test_get_product_id')
     response = client.get("/product/1")
     assert response.status_code == 200
     assert response.json()[0]['name'] == 'Test'
@@ -99,7 +99,7 @@ def test_post_product(client, products_setup, db_session):
 
 
 def test_post_product_type(client, products_setup, db_session):
-    print('test_post_products')
+    print('test_post_product_type')
     data = {
         "name": "test_type"
     }
@@ -128,6 +128,6 @@ def test_post_update_product(client, products_setup, db_session):
 def test_delete_product(client, products_setup, db_session):
     print('test_delete_product')
     response = client.delete("/product/1")
-    saved_product = db_session.query(models.Product).filter(models.Product.time_deleted == None).all()
+    saved_product = db_session.query(models.Product).filter(models.Product.id == 1).all()
     assert response.status_code == 204
-    assert saved_product == []
+    assert saved_product[0].time_deleted != None
