@@ -20,7 +20,7 @@ def get_db():
 
 
 @app.get("/products", response_model=list[shemas.Product],
-         summary="Получение продукта",
+         summary="Получение продуктов",
          description="При запросе выводятся все "
                      "продукты, содержащиеся в базе данных")
 async def read_products(db: Session = Depends(get_db)):
@@ -41,9 +41,9 @@ async def create_product(product: shemas.ProductCreate,
 
 
 @app.post("/type", response_model=shemas.ProductType,
-          summary="Добавление типов продукта",
+          summary="Добавление категории продукта",
           description="При отправке запросе в базу "
-                      "данных добавляется новый тип продуктов")
+                      "данных добавляется новая категория продукта")
 async def create_product_type(product_type: shemas.ProductTypeCreate,
                               db: Session = Depends(get_db)):
     db_product_type = await crud.add_product_type(db=db, product_type=product_type)
@@ -53,7 +53,7 @@ async def create_product_type(product_type: shemas.ProductTypeCreate,
 @app.post("/product/{id}", response_model=list[shemas.ProductCreate],
           summary="Изменение информации о продукта",
           description="При отправке запросе в "
-                      "базу данных изменяется информация о продукте")
+                      "базе данных изменяется информация о продукте")
 async def change_product(id: int, product: shemas.ProductCreate, db: Session = Depends(get_db)):
     db_product = await crud.update_product(db=db, product_id=id, product=product)
     return db_product
@@ -65,7 +65,7 @@ async def change_product(id: int, product: shemas.ProductCreate, db: Session = D
 async def read_product(id: int, db: Session = Depends(get_db)):
     db_product = await crud.get_product_id(db=db, product_id=id)
     if db_product is None:
-        raise HTTPException(status_code=404, detail="User not found")
+        raise HTTPException(status_code=404, detail="Product not found")
     return db_product
 
 
@@ -76,14 +76,14 @@ async def read_product(id: int, db: Session = Depends(get_db)):
 async def read_products_type(type_id: int, db: Session = Depends(get_db)):
     db_products_type = await crud.get_products_type(db=db, type_id=type_id)
     if db_products_type is None:
-        raise HTTPException(status_code=404, detail="User not found")
+        raise HTTPException(status_code=404, detail="Product not found")
     return db_products_type
 
 
 @app.delete("/product/{id}", status_code=204,
             summary="Удаление продуктов по id",
-            description="При отправке запросе выводятся "
-                        "продукты по запрашиваемому типу")
+            description="При отправке запросе удаляются"
+                        "данные о продукте")
 async def remove_product(id: int, db: Session = Depends(get_db)):
     await crud.delete_product(db=db, product_id=id)
 
