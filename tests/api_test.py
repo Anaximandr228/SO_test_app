@@ -128,6 +128,6 @@ def test_post_update_product(client, products_setup, db_session):
 def test_delete_product(client, products_setup, db_session):
     print('test_delete_product')
     response = client.delete("/product/1")
-    saved_product = db_session.query(models.ProductType).filter(models.Product.time_deleted == None).all()
+    saved_product = db_session.query(models.Product).filter(models.Product.time_deleted == None).all()
     assert response.status_code == 204
     assert saved_product == []
