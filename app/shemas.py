@@ -1,3 +1,5 @@
+from datetime import datetime
+from typing import Optional
 from pydantic import BaseModel
 
 
@@ -11,6 +13,8 @@ class ProductTypeCreate(ProductTypeBase):
 
 class ProductType(ProductTypeBase):
     id: int
+    time_created: datetime
+    time_updated: Optional[datetime]
     name: str
 
     class Config:
@@ -28,6 +32,8 @@ class ProductCreate(ProductBase):
 
 class Product(ProductBase):
     id: int
+    time_created: datetime
+    time_updated: Optional[datetime]
     name: str
     product_type_id: int
     type: ProductType
