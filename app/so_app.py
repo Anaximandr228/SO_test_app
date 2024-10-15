@@ -50,16 +50,16 @@ async def create_product_type(product_type: shemas.ProductTypeCreate,
     return db_product_type
 
 
-@app.post("/product/update/{id}", response_model=list[shemas.ProductCreate],
+@app.post("/product/{id}", response_model=list[shemas.ProductCreate],
           summary="Изменение информации о продукта",
           description="При отправке запросе в "
                       "базу данных изменяется информация о продукте")
-async def change_cat(id: int, product: shemas.ProductCreate, db: Session = Depends(get_db)):
+async def change_product(id: int, product: shemas.ProductCreate, db: Session = Depends(get_db)):
     db_product = await crud.update_product(db=db, product_id=id, product=product)
     return db_product
 
 
-@app.get("/products/{id}", response_model=list[shemas.Product],
+@app.get("/product/{id}", response_model=list[shemas.Product],
          summary="Получение продукта по его id",
          description="При отправке запросе выводится запрашиваемый продукт")
 async def read_product(id: int, db: Session = Depends(get_db)):
@@ -78,6 +78,13 @@ async def read_products_type(type_id: int, db: Session = Depends(get_db)):
     if db_products_type is None:
         raise HTTPException(status_code=404, detail="User not found")
     return db_products_type
+
+@app.delete("/product/{id}", status_code=204,
+         summary="Удаление продуктов по id",
+         description="При отправке запросе выводятся "
+                     "продукты по запрашиваемому типу")
+async def remove_product(id: int, db: Session = Depends(get_db)):
+    await crud.delete_product(db=db, product_id=id)
 
 
 if __name__ == "__main__":
