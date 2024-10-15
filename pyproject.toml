@@ -10,6 +10,8 @@ python = "^3.9"
 psycopg2 = "^2.9.9"
 fastapi = {extras = ["all"], version = "^0.115.2"}
 sqlalchemy = "^2.0.35"
+pytest = "^8.3.3"
+alembic = "^1.13.3"
 
 
 [build-system]
